@@ -3,13 +3,24 @@
  */
 package edu.uw.complexkotlin
 
+fun main() {
+}
 // write a lambda using map and fold to solve "FIZZBUZZ" for the first fifteen numbers (0..15).
 // use map() to return a list with "", "FIZZ" (for 3s) or "BUZZ" (for 5s).
 // use fold() to compress the array of strings down into a single string.
 // the final string should look like FIZZBUZZFIZZFIZZBUZZFIZZFIZZBUZZ for 0..15.
 // store this lambda into 'fizzbuzz' so that the tests can call it
 //
-val fizzbuzz : (IntRange) -> String = { _ -> "" }
+val fizzbuzz: (IntRange) -> String = { range ->
+    range.map {
+        when {
+            it % 3 == 0 && it % 5 == 0 -> "FIZZBUZZ"
+            it % 3 == 0 -> "FIZZ"
+            it % 5 == 0 -> "BUZZ"
+            else -> ""
+        }
+    }.fold("") { acc, s -> acc + s }
+}
 
 // Example usage
 /*
@@ -35,17 +46,37 @@ fun process(message: String, block: (String) -> String): String {
 }
 // Create r1 as a lambda that calls process() with message "FOO" 
 // and a block that returns "BAR"
-val r1 = { "" }
+val r1 = { process("FOO") { "BAR" }}
 
 // Create r2 as a lambda that calls process() with message "FOO" 
 // and a block that upper-cases r2_message, and repeats it three 
 // times with no spaces: "WOOGAWOOGAWOOGA"
 val r2_message = "wooga"
-val r2 = { "" }
+val r2 = { process("FOO") { r2_message.toUpperCase().repeat(3) } }
 
 
 // write an enum-based state machine between talking and thinking
-enum class Philosopher { }
+enum class Philosopher { 
+    THINKING {
+        override fun toString(): String {
+            return "Deep thoughts...."
+        }
+    },
+    TALKING {
+        override fun toString(): String {
+            return "Allow me to suggest an idea..."
+        }
+    };
+
+    fun signal() = when (this) {
+        THINKING -> TALKING
+        TALKING -> THINKING
+    }
+ }
+// Extra Credit:
+// Seneca the Younger, a Roman philosopher, is commonly associated with the Stoic school of philosophy, 
+// which emphasizes virtue, wisdom, and self-control as the path to true happiness and teaches that we cannot 
+// control external events, only our reactions to them.
 
 // create an class "Command" that can be used as a function 
 // (provide an "invoke()" function)
@@ -54,4 +85,8 @@ enum class Philosopher { }
 // when invoked, the Command object should return a String c
 // ontaining the prompt and then the message.
 // Example: Command(": ")("Hello!") should print ": Hello!"
-class Command(val prompt: String) { }
+class Command(val prompt: String) {
+    operator fun invoke(message: String): String {
+        return "$prompt$message"
+    }
+ }

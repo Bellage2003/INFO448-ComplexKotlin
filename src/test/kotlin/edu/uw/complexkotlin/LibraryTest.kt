@@ -45,4 +45,18 @@ class LibraryTest {
         assertEquals("", Command("")(""))
         assertEquals("> Hello!", Command("> ")("Hello!"))
     }
+
+    @Test fun testFizzBuzz50() {
+        assertEquals(
+            "FIZZBUZZFIZZFIZZBUZZFIZZFIZZBUZZFIZZBUZZFIZZFIZZBUZZFIZZFIZZBUZZFIZZBUZZFIZZFIZZBUZZFIZZFIZZBUZZFIZZBUZZ",
+            fizzbuzz(1..50)
+        )
+    }
+
+    @Test fun testFizzBuzz100() {
+        assertEquals(
+            "FIZZBUZZFIZZFIZZBUZZFIZZFIZZBUZZFIZZBUZZFIZZFIZZBUZZFIZZFIZZBUZZFIZZBUZZFIZZFIZZBUZZFIZZFIZZBUZZFIZZBUZZFIZZFIZZBUZZFIZZFIZZBUZZFIZZBUZZFIZZFIZZBUZZFIZZFIZZBUZZFIZZBUZZFIZZFIZZBUZZFIZZFIZZBUZZFIZZBUZZFIZZFIZZBUZZ",
+            fizzbuzz(1..100)
+        )
+    }
 }
